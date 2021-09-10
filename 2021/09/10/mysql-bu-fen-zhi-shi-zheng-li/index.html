@@ -29,7 +29,9 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
 
 
 
@@ -55,7 +57,7 @@
     
     <a href="/" class="waves-effect waves-light">
       
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      <i class="far fa-address-book" style="zoom: 0.6;"></i>
       
       <span>首页</span>
     </a>
@@ -158,7 +160,7 @@
 	  
 		<a href="/" class="waves-effect waves-light">
 			
-			    <i class="fa-fw fas fa-home"></i>
+			    <i class="fa-fw far fa-address-book"></i>
 			
 			首页
 		</a>
@@ -454,21 +456,36 @@
                 
 
                 
-
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.3k
+                </div>
                 
 
                 
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
         <hr class="clearfix">
 
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
         
 
         
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="mysql部分知识整理-一"><a href="#mysql部分知识整理-一" class="headerlink" title="mysql部分知识整理(一)"></a>mysql部分知识整理(一)</h1><p>制作人：文明</p>
+                <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&amp;id=1384026889&amp;auto=0&amp;height=66"></iframe>
+
+<h1 id="mysql部分知识整理-一"><a href="#mysql部分知识整理-一" class="headerlink" title="mysql部分知识整理(一)"></a>mysql部分知识整理(一)</h1><p>制作人：文明</p>
 <p>微信：19871173328</p>
 <hr>
 <h2 id="第一部分：事务"><a href="#第一部分：事务" class="headerlink" title="第一部分：事务"></a>第一部分：事务</h2><h3 id="1-1-事务概述"><a href="#1-1-事务概述" class="headerlink" title="1.1 事务概述"></a>1.1 事务概述</h3><ul>
@@ -497,7 +514,11 @@
 <li><p>开启事务<code>start transaction</code></p>
 </li>
 <li><p>使用ROLLBACK</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> transaction;</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> orders;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders;</span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token keyword">delete</span> <span class="token keyword">from</span> orders<span class="token punctuation">;</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> orders<span class="token punctuation">;</span>
+<span class="token keyword">rollback</span><span class="token punctuation">;</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> orders<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>提交事务commit，使用方法与rollback相同</p>
 </li>
 <li><p>设置保留点，简单的rollback与commit可以撤销和写入整个事务，但对于复杂的事务，只需要部分撤销或提交，此时设置保留点。<code>savepoint a1</code>退回时<code>rollback to a1</code></p>
@@ -527,19 +548,37 @@
 <li><p>添加约束，利用alter</p>
 <p><code>alter table stu add constraint pk primary key(id)</code>或</p>
 <p><code>alter table stu modify column id int primary key</code>添加主键</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> stu <span class="keyword">add</span> <span class="keyword">constraint</span> fk_stu_major <span class="keyword">foreign</span> key(majorid) <span class="keyword">references</span> major(id); #添加外键约束</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> stu <span class="keyword">add</span> <span class="keyword">constraint</span> DF <span class="keyword">default</span>(<span class="number">18</span>) <span class="keyword">for</span> age;#添加默认约束</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-none"><code class="language-none">alter table stu add constraint fk_stu_major foreign key(majorid) references major(id); #添加外键约束
+alter table stu add constraint DF default(18) for age;#添加默认约束<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
 </li>
 <li><p>创建表时添加约束：</p>
 <ul>
 <li><p>添加列级约束：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> stu(</span><br><span class="line">	id <span class="type">int</span> <span class="keyword">primary</span> key,#主键</span><br><span class="line">    stuname <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span>,#非空</span><br><span class="line">    seat <span class="type">int</span> <span class="keyword">unique</span>,</span><br><span class="line">    age <span class="type">int</span> <span class="keyword">default</span> <span class="number">18</span></span><br><span class="line">    majorid <span class="type">int</span>,</span><br><span class="line">    <span class="keyword">foreign</span> key(majorid) <span class="keyword">references</span> major(id)</span><br><span class="line">);#列级约束只支持非空，默认，唯一，主键约束</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> stu<span class="token punctuation">(</span>
+	id <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">,</span><span class="token comment">#主键</span>
+    stuname <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span><span class="token comment">#非空</span>
+    seat <span class="token keyword">int</span> <span class="token keyword">unique</span><span class="token punctuation">,</span>
+    age <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">18</span>
+    majorid <span class="token keyword">int</span><span class="token punctuation">,</span>
+    <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>majorid<span class="token punctuation">)</span> <span class="token keyword">references</span> major<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">#列级约束只支持非空，默认，唯一，主键约束</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>添加表级约束：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> stu(</span><br><span class="line">	id <span class="type">int</span>,</span><br><span class="line">    stuname <span class="type">varchar</span>(<span class="number">20</span>),</span><br><span class="line">    seat <span class="type">int</span>,</span><br><span class="line">    age <span class="type">int</span>,</span><br><span class="line">    majorid <span class="type">int</span>,</span><br><span class="line">    <span class="keyword">constraint</span> pk <span class="keyword">primary</span> key(id),</span><br><span class="line">    <span class="keyword">constraint</span> uq <span class="keyword">unique</span>(seat),</span><br><span class="line">    <span class="keyword">constraint</span> fk_stu_major <span class="keyword">foreign</span> key(majorid) <span class="keyword">references</span> major(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> stu<span class="token punctuation">(</span>
+	id <span class="token keyword">int</span><span class="token punctuation">,</span>
+    stuname <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    seat <span class="token keyword">int</span><span class="token punctuation">,</span>
+    age <span class="token keyword">int</span><span class="token punctuation">,</span>
+    majorid <span class="token keyword">int</span><span class="token punctuation">,</span>
+    <span class="token keyword">constraint</span> pk <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">constraint</span> uq <span class="token keyword">unique</span><span class="token punctuation">(</span>seat<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">constraint</span> fk_stu_major <span class="token keyword">foreign</span> <span class="token keyword">key</span><span class="token punctuation">(</span>majorid<span class="token punctuation">)</span> <span class="token keyword">references</span> major<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 </li>
 <li><p>删除约束：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">drop</span> <span class="keyword">constraint</span> 约束名；</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 modify <span class="keyword">column</span> 列名 。。。；#modify是万能的</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 <span class="token keyword">drop</span> <span class="token keyword">constraint</span> 约束名；
+<span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 <span class="token keyword">modify</span> <span class="token keyword">column</span> 列名 。。。；<span class="token comment">#modify是万能的</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
 <h3 id="2-3-自增约束扩展"><a href="#2-3-自增约束扩展" class="headerlink" title="2.3 自增约束扩展"></a>2.3 自增约束扩展</h3><p>创建表时可以设置自增，设为自增的列插入值时可以忽略。</p>
 <ul>
@@ -550,7 +589,8 @@
 <li><p>标识列只能是数值型</p>
 </li>
 <li><p>修改表时设置和删除标识列</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tab_identify modify <span class="keyword">column</span> id <span class="type">int</span> <span class="keyword">primary</span> key auto_increment;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tab_identify modify <span class="keyword">column</span> id <span class="type">int</span> <span class="keyword">primary</span> key;</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> tab_identify <span class="token keyword">modify</span> <span class="token keyword">column</span> id <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token keyword">auto_increment</span><span class="token punctuation">;</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> tab_identify <span class="token keyword">modify</span> <span class="token keyword">column</span> id <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
 <h2 id="第三部分：视图"><a href="#第三部分：视图" class="headerlink" title="第三部分：视图"></a>第三部分：视图</h2><h3 id="3-1-视图"><a href="#3-1-视图" class="headerlink" title="3.1 视图"></a>3.1 视图</h3>
                 
@@ -578,7 +618,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://wmdsg.github.io/2021/09/10/mysql%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">http://wmdsg.github.io/2021/09/10/mysql%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</a>
+                    <a href="http://wmdsg.github.io/2021/09/10/mysql-bu-fen-zhi-shi-zheng-li/">http://wmdsg.github.io/2021/09/10/mysql-bu-fen-zhi-shi-zheng-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -794,7 +834,7 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2021/09/10/mysql%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">
+                <a href="/2021/09/10/mysql-bu-fen-zhi-shi-zheng-li/">
                     <div class="card-image">
                         
                         
@@ -840,7 +880,7 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2021/09/10/mysql%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">
+                <a href="/2021/09/10/mysql-bu-fen-zhi-shi-zheng-li/">
                     <div class="card-image">
                         
                         
@@ -1008,60 +1048,6 @@
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-    
 
     <div class="container row center-align"
          style="margin-bottom: 0px !important;">
@@ -1076,6 +1062,12 @@
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">1.3k</span>
+            
+				
+			<span id="sitetime"></span>
+			
             
             
                 
@@ -1135,6 +1127,60 @@
 </footer>
 
 <div class="progress-bar"></div>
+
+<script>
+    $(document).ready(function () {
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
 
 
     <!-- 搜索遮罩框 -->
